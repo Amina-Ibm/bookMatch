@@ -1,10 +1,19 @@
-import 'package:book_next/screens/searchBookScreen.dart';
+import 'package:bookmatch/screens/mainScreen.dart';
+import 'package:bookmatch/screens/readingListScreen.dart';
+import 'package:bookmatch/screens/searchBookScreen.dart';
 import 'package:flutter/material.dart';
 import 'models/book.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MainApp());
 }
 
@@ -36,7 +45,7 @@ class _MainAppState extends State<MainApp> {
     if (fetchedData != null && fetchedData['items'] != null) {
 
       for (var item in fetchedData['items']) {
-        books.add(Book.fromJson(item));
+        books.add(Book.fromJsonWithGoogleApi(item));
       }
       setState(() {
         finalBooks = books;
@@ -46,7 +55,8 @@ class _MainAppState extends State<MainApp> {
     }
   }
   Widget build(BuildContext context) {
-    return searchBookScreen();
-
+    return GetMaterialApp(
+      home: mainScreen(),
+    );
   }
 }

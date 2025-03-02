@@ -1,4 +1,4 @@
-package com.example.book_next
+package com.example.bookmatch
 
 import io.flutter.embedding.android.FlutterActivity
 

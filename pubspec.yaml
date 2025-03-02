@@ -1,4 +1,4 @@
-name: book_next
+name: bookmatch
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
@@ -7,9 +7,22 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  chips_choice: ^3.0.1
+  choice: ^2.3.2
+  cloud_firestore: ^5.6.0
+  firebase_auth: ^5.3.4
+  firebase_core: ^3.9.0
   flutter:
     sdk: flutter
+  get: ^4.6.6
+  google_generative_ai: ^0.4.6
+  google_nav_bar: ^5.0.7
   http: ^1.2.2
+  mobile_scanner: ^6.0.2
+  openai_dart: ^0.4.5
+  toastification: ^2.3.0
+  uri: ^1.0.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
