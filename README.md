@@ -1,7 +1,6 @@
-![WhatsApp Image 2025-03-04 at 6 28 56 PM](https://github.com/user-attachments/assets/995b4d33-7b20-4376-9a10-bfaf86d820c5)
+![ic_launcher](https://github.com/user-attachments/assets/ffb4bb4f-3eff-4c28-aa9f-383edb4008f2)
 
 # BookMatch
-
 
 A Flutter-based mobile app made as my Final Year Project.  It helps users search for books, manage their reading lists, receive AI-based book recommendations, and scan books using their ISBN barcode. The app uses GetX for state management and Firebase as its backend.
 
