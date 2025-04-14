@@ -4,9 +4,11 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.3
+  sdk: ^3.4.3
 
 dependencies:
+  animated_rating_stars: ^1.0.1
+  appwrite: ^15.0.0
   chips_choice: ^3.0.1
   choice: ^2.3.2
   cloud_firestore: ^5.6.0
@@ -15,9 +17,14 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.6
+  google_fonts: ^6.2.1
   google_generative_ai: ^0.4.6
   google_nav_bar: ^5.0.7
+  hive_ce: ^2.4.4
+  hive_flutter: ^1.1.0
   http: ^1.2.2
+  iconify_flutter: ^0.0.7
+  iconify_flutter_plus: ^1.0.4
   mobile_scanner: ^6.0.2
   openai_dart: ^0.4.5
   toastification: ^2.3.0
@@ -31,3 +38,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/applogo.jpg
+

@@ -2,7 +2,7 @@ enum readingStatus {
   None,
   toRead,
   currentlyReading,
-  read
+  finished
 }
 
 class Book{

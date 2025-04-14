@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bookmatch/Controllers/BooksApiController.dart';
+import 'package:bookmatch/Controllers/ApiController.dart';
 import 'package:bookmatch/screens/bookDetailScreen.dart';
 import 'package:bookmatch/widgets/emotionBasedRecs.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +17,13 @@ class searchBookScreen extends StatefulWidget{
 }
 
 class _searchBookScreenState extends State<searchBookScreen>{
-  final BooksAPIController bookApiController = Get.put(BooksAPIController());
+  final APIController bookApiController = Get.put(APIController());
   final bookNameController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    bookApiController.finalBooks.clear();
+  }
   void onSelectBook(BuildContext context, Book book){
     Navigator.push(context,
         MaterialPageRoute(builder: (ctx) =>
@@ -26,62 +31,107 @@ class _searchBookScreenState extends State<searchBookScreen>{
   }
   Widget build(BuildContext context){
     final _formkey = GlobalKey<FormState>();
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
         title: Text('Search Book'),
     ),
-    body: Padding(padding: EdgeInsets.all(20),
-    child: Container(
-    child: Column(
-    mainAxisSize: MainAxisSize.min,
+    body: Padding(
+      padding: const EdgeInsets.all(20),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Search Form
+            Form(
+              key: _formkey,
+              child: TextFormField(
+                controller: bookNameController,
+                maxLength: 60,
+                decoration: InputDecoration(
+                  labelText: 'Enter Book Name',
+                  suffixStyle: Theme.of(context).textTheme.bodyMedium,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  suffixIcon: IconButton(
+                    onPressed: () => bookApiController.searchBook(bookNameController.text),
+                    icon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+                  ),
+                ),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            const SizedBox(height: 16),
 
-    children: [
-    Form(
-    key: _formkey,
-    child: TextFormField(
-    controller: bookNameController,
-    maxLength: 60,
-    decoration: InputDecoration(
-    label: Text('Enter Book Name'),
-    suffix: IconButton(onPressed: (){bookApiController.searchBook(bookNameController.text);},
-    icon: Icon(Icons.search))
+            // Separator Text
+            Center(
+              child: Text(
+                "Or",
+                style: Theme.of(context).textTheme.bodyMedium),
+              ),
+            const SizedBox(height: 10),
+
+            // Emotion-based Recommendations
+            Center(
+              child: Text(
+                "Get Recommendations based on Emotions",
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            const SizedBox(height: 10),
+            EmotionChipsWidget(),
+            const SizedBox(height: 20),
+
+            // Book Results List
+            Obx(() {
+              if (bookApiController.isLoading.value) {
+                return const Center(
+                  child: SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: CircularProgressIndicator(strokeWidth: 3),
+                  ),
+                );
+              }
+
+              if (bookApiController.finalBooks.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No books found",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                );
+              }
+
+              return ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: bookApiController.finalBooks.length,
+                itemBuilder: (ctx, index) {
+                  final book = bookApiController.finalBooks[index];
+
+                  return ListTile(
+                    leading: Image.network(book.smallThumbnail),
+                    title: Text(
+                      book.title,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: IconButton(
+                      onPressed: () => onSelectBook(ctx, book),
+                      icon: Icon(Icons.arrow_forward_rounded, color: Theme.of(context).colorScheme.primary),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
+              );
+            }),
+          ],
+        ),
+      ),
     ),
-    ),),
-    Text("Or"),
-    Text("Get Recommendations based on Emotions"),
-    EmotionChipsWidget(),
-    Expanded(child: Obx((){
-      if(bookApiController.isLoading.value == true){
-        return const Center(
-            child: SizedBox(
-              height: 40, // Adjust size
-              width: 40,  // Adjust size
-              child: CircularProgressIndicator(strokeWidth: 3),
-            ));
-      }
-        if (bookApiController.finalBooks.isEmpty) {
-        return const Center(child: Text("No books found"));
-        }
-        return ListView.separated(
-    itemCount: bookApiController.finalBooks.length,
-    itemBuilder: (ctx, index) {
-      final book = bookApiController.finalBooks[index];
-    return ListTile(
-    leading: Image.network(book.smallThumbnail),
-    title: Text(book.title),
-    trailing: IconButton(
-    onPressed: (){ onSelectBook(ctx, book); },
-    icon: Icon(Icons.arrow_forward_rounded)),
-    );
-    }, separatorBuilder: (context, index) { return SizedBox(height: 10,); },);
-    }
-    ))
-    ],
-    )
-    ),
-    )
-    )
     );
   }
 }
