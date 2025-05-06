@@ -1,3 +1,4 @@
+import 'package:bookmatch/Controllers/BookListController.dart';
 import 'package:bookmatch/screens/mainScreen.dart';
 import 'package:bookmatch/screens/searchBookScreen.dart';
 import 'package:bookmatch/screens/signUpScreen.dart';
@@ -6,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:bookmatch/services/auth_service.dart';
 import 'package:appwrite/appwrite.dart';
+
+import 'homeView.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -21,21 +24,25 @@ class _SignInScreenState extends State<SignInScreen> {
   bool isLoading = false;
 
   final AuthService auth = AuthService();
+  final BookListController bookListController = Get.find();
 
-  // Sign-in function
   Future<void> signIn() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => isLoading = true);
     try {
-      await auth.login(
+      final currentUser = await auth.login(
           email: emailController.text,
           password: passwordController.text);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Sign-in successful!')),
       );
-      // Navigate to home screen
-      Get.to(mainScreen());
+
+        if (currentUser != null) {
+          bookListController.userId = currentUser.$id;
+          bookListController.update();
+          Get.to(mainScreen());
+      }
     } on AppwriteException catch (e) {
       String errorMessage = "An error occurred";
       if (e.code == 401) {

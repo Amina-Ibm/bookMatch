@@ -1,9 +1,12 @@
+import 'package:bookmatch/screens/homeView.dart';
 import 'package:bookmatch/screens/recommendationsScreen.dart';
+import 'package:bookmatch/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:bookmatch/screens/searchBookScreen.dart';
 import 'package:bookmatch/screens/readingListScreen.dart';
 
+import '../widgets/appDrawer.dart';
 import 'bookScannerScreen.dart';
 
 class mainScreen extends StatefulWidget {
@@ -14,7 +17,9 @@ class mainScreen extends StatefulWidget {
 class _mainScreenState extends State<mainScreen> {
   int _selectedIndex = 0;
 
+
   final List<Widget> _screens = [
+    HomeScreen(),
     searchBookScreen(),
     readingListScreen(),
     RecommendationsScreen(),
@@ -24,10 +29,11 @@ class _mainScreenState extends State<mainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(onLogout: AuthService().logout,),
       body: _screens[_selectedIndex],
       bottomNavigationBar: Container(
         color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
         child: GNav(
           gap: 4,
           activeColor: Colors.white,
@@ -36,6 +42,15 @@ class _mainScreenState extends State<mainScreen> {
           tabBackgroundColor: Colors.blue,
           padding: const EdgeInsets.all(12),
           tabs: [
+            GButton(
+              iconActiveColor: Colors.red,
+              iconColor: Colors.black,
+              textColor: Colors.red,
+              backgroundColor: Colors.red.withOpacity(.2),
+              iconSize: 24,
+              icon: Icons.home,
+              text: 'Home',
+            ),
             GButton(
               iconActiveColor: Colors.purple,
               iconColor: Colors.black,
@@ -52,7 +67,7 @@ class _mainScreenState extends State<mainScreen> {
               backgroundColor: Colors.pink.withOpacity(.2),
               iconSize: 24,
               icon: Icons.library_books,
-              text: 'Reading List',
+              text: 'List',
             ),
             GButton(
               iconActiveColor: Colors.blue,
@@ -61,7 +76,7 @@ class _mainScreenState extends State<mainScreen> {
               backgroundColor: Colors.blue.withOpacity(.2),
               iconSize: 24,
               icon: Icons.book,
-              text: 'Recommendations',
+              text: 'Recs',
             ),
             GButton(
               iconActiveColor: Colors.green,

@@ -1,3 +1,4 @@
+import 'package:bookmatch/screens/getStartedScreen.dart';
 import 'package:bookmatch/screens/signinScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:bookmatch/services/auth_service.dart';
@@ -32,11 +33,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await auth.signUp(email: emailController.text,
           password: passwordController.text,
           name: nameController.text);
-
+      await auth.login(
+          email: emailController.text,
+          password: passwordController.text);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sign-up successful! Please Log in.')),
+        const SnackBar(content: Text('Sign-up successful!')),
       );
-      Get.off(() => const SignInScreen());
+      Get.off(() => GetStartedScreen());
     } on AppwriteException catch (e) {
       String errorMessage = "An error occurred";
       if (e.code == 409) {

@@ -26,7 +26,7 @@ class bookDetailScreen extends StatelessWidget {
             onSelected: (value) => controller.updateBookStatus(book, value),
             itemBuilder: (context) => [
               const PopupMenuItem(
-                value: readingStatus.currentlyReading,
+                value: readingStatus.Reading,
                 child: Text('Add to Currently Reading'),
               ),
               const PopupMenuItem(
@@ -34,7 +34,7 @@ class bookDetailScreen extends StatelessWidget {
                 child: Text('Add to To Read'),
               ),
               const PopupMenuItem(
-                value: readingStatus.finished,
+                value: readingStatus.Finished,
                 child: Text('Add to Finished'),
               ),
             ],

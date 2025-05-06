@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:bookmatch/data/Books.dart';
 import 'package:bookmatch/widgets/bookInfoRow.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:toastification/toastification.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/book.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -13,29 +16,43 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:bookmatch/services/auth_service.dart';
 
+import '../services/appwrite_service.dart';
+
 class BookListController extends GetxController {
-  final databases = Databases(AuthService().getClient());
+  final AuthService _authService = AuthService();
+  final AppwriteService _appwriteService = AppwriteService();
 
-  static const databaseId = '67f4f77f0025d8eb1e5f';
-  static const readingListCollectionId = '67f8dc3c000f5d086dba';
-  static const ratingsCollectionId = '67f4f79c001ef97d18dd';
+  final RxBool isExpanded = false.obs;
+  String? userId;
+  @override
+  void onInit() {
+    super.onInit();
+    getUserId();
+  }
+  Future<void> getUserId() async {
+    try {
+      // Check if we have a valid authenticated session first
+      bool isLoggedIn = await _authService.isAuthenticated();
 
-  Future<String?> getUserId() async {
-    models.User? user =  await AuthService().getCurrentUser();
-    try{
-      if(user != null){
-        String userId = user.$id;
-        return userId;
+      if (isLoggedIn) {
+        final user = await _authService.getCurrentUser();
+        print(user);
+
+        if (user != null) {
+          userId = user.$id;
+          update();
+        } else {
+          print('User is authenticated but user data is null');
+        }
+      } else {
+        print('No authenticated user session found');
+        // Handle the case where user is not logged in
+        // This might be redirecting to login or setting a guest state
       }
     } catch (e) {
       print('Error getting user ID: $e');
-      return '';
+    }
   }
-}
-
-
-  final RxBool isExpanded = false.obs;
-
   void toggleDescription() {
     isExpanded.value = !isExpanded.value;
   }
@@ -56,22 +73,102 @@ class BookListController extends GetxController {
     await launchUrl(query, mode: LaunchMode.platformDefault);
   }
 
-  void updateBookStatus(Book book, readingStatus newStatus) {
-    if (newStatus == readingStatus.finished) {
-      showRatingDialog(book, newStatus);
-    } else {
-      updateBookWithoutRating(book, newStatus);
+  void updateBookStatus(Book book, readingStatus newStatus) async {
+    if (book.status == null){
+      AppwriteService().addBookToReadingList(book, userId!, newStatus );
+    }
+    if (book.status == newStatus) {
+      toastification.show(
+        type: ToastificationType.error,
+        style: ToastificationStyle.flatColored,
+        title: Text(""),
+        description: Text("'${book.title}' is already in ${newStatus.name} collection"),
+        alignment: Alignment.bottomCenter,
+        autoCloseDuration: const Duration(seconds: 2),
+        animationBuilder: (context, animation, alignment, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      );
+      return;
+    }
+
+    try {
+      if (newStatus == readingStatus.Finished) {
+        showRatingDialog(book, newStatus);
+      } else {
+        await updateStatusinDB(book, newStatus);
+        toastification.show(
+          type: ToastificationType.success,
+          style: ToastificationStyle.flatColored,
+          title: Text(""),
+          description: Text("'${book.title}' moved to ${newStatus.name} collection."),
+          alignment: Alignment.bottomCenter,
+          autoCloseDuration: const Duration(seconds: 2),
+          animationBuilder: (context, animation, alignment, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        );
+      }
+    } catch (e) {
+      print("Error updating book status: $e");
+    }
+  }
+  Future<void> deleteBook(Book book) async {
+    if (userId == null) return;
+
+    try {
+      await AppwriteService().deleteBookFromReadingList(book.id!);
+      toastification.show(
+        type: ToastificationType.success,
+        style: ToastificationStyle.flatColored,
+        title: const Text(""),
+        description: Text("'${book.title}' was removed from your list."),
+        alignment: Alignment.bottomCenter,
+        autoCloseDuration: const Duration(seconds: 2),
+        animationBuilder: (context, animation, alignment, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      );
+    } catch (e) {
+      print("Error deleting book: $e");
     }
   }
 
-  void updateBookWithoutRating(Book book, readingStatus newStatus) {
+
+  Future<void> updateStatusinDB(Book book, readingStatus newStatus) async {
+    await AppwriteService().updateBookStatus(book.id!, newStatus);
     book.status = newStatus;
-    addBookToReadingList(book);
-    Get.snackbar("Status Updated", "${book.title} moved to ${newStatus.name}");
+    update();
   }
 
+  Future<Map<readingStatus, int>> fetchReadingStats(String userId) async {
+    final statuses = [
+      readingStatus.Reading,
+      readingStatus.Finished,
+      readingStatus.toRead
+    ];
+
+    Map<readingStatus, int> stats = {};
+
+    // Fetch books for each status and count them
+    for (readingStatus status in statuses) {
+      try {
+
+        final books = await _appwriteService.fetchBooksByStatus(userId, status);
+        stats[status] = books.length;
+      } catch (e) {
+        // If there's an error fetching a particular status, set count to 0
+        stats[status] = 0;
+        print('Error fetching $status books: $e');
+      }
+    }
+
+    return stats;
+  }
+// }
+
   void showRatingDialog(Book book, readingStatus newStatus) {
-    double userRating = 3.0;
+    double userRating = 3;
 
     Get.defaultDialog(
       title: "Rate '${book.title}'",
@@ -98,10 +195,16 @@ class BookListController extends GetxController {
             children: [
               TextButton(onPressed: () => Get.back(), child: Text("Cancel")),
               ElevatedButton(
-                onPressed: () {
-                  addUserRatingToDb(book, userRating);
-                  updateBookWithoutRating(book, newStatus);
-                  Get.back();
+                onPressed: () async {
+                  try {
+                    await AppwriteService().addUserRatingToDb(userId!, book, userRating);
+                    await updateStatusinDB(book, newStatus);
+                  } catch (e) {
+                    print("Error: $e");
+                  } finally {
+                    Get.back();
+                    //Navigator.pop(BuildContext as BuildContext );// ensure the dialog always closes
+                  }
                 },
                 child: Text("Submit"),
               ),
@@ -112,39 +215,4 @@ class BookListController extends GetxController {
     );
   }
 
-  Future<void> addUserRatingToDb(Book book, double rating) async{
-    final ratingData = {
-      ["userId"] : getUserId(),
-      ["bookTitle"] : book.title,
-      ["rating"] : rating
-    };
-
-    try{
-      final result = await databases.createDocument(
-        databaseId: databaseId,
-        collectionId: ratingsCollectionId,
-        documentId: ID.unique(), // 👈 Auto-generated
-        data: ratingData,
-      );
-      print("rating added with ID: ${result.$id}");
-  } on AppwriteException catch (e) {
-  print('Error adding rating to database: ${e.message}');
-  }
-  }
-  Future<void> addBookToReadingList(Book book) async {
-    final bookData = book.toMap();
-    bookData['userId'] = await getUserId();
-    bookData['status'] = book.status!.name;
-    try {
-      final result = await databases.createDocument(
-          databaseId: databaseId,
-          collectionId: readingListCollectionId,
-          documentId: ID.unique(), // 👈 Auto-generated
-          data: bookData,
-      );
-      print("Book added with ID: ${result.$id}");
-    } on AppwriteException catch (e) {
-      print('Error adding book to reading list: ${e.message}');
-    }
-  }
 }

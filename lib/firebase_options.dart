@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'bookmatch-b6265',
     storageBucket: 'bookmatch-b6265.firebasestorage.app',
   );
+
 }

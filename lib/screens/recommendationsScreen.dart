@@ -16,30 +16,14 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
   @override
   void initState() {
     super.initState();
-    bookApiController.finalBooks.clear(); // Clear recommendations when entering the screen
+    bookApiController.searchedBooks.clear(); // Clear recommendations when entering the screen
   }
   void onSelectBook(BuildContext context, Book book){
     Navigator.push(context,
         MaterialPageRoute(builder: (ctx) =>
             bookDetailScreen(book: book) ));
   }
-  Future<List<String>> fetchRecommendations(String bookName) async {
-    final String apiUrl = "https://web-production-3a68d.up.railway.app/recommend?book=$bookName";
-    final response = await http.get(Uri.parse(apiUrl));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      List<String> recommendations = List<String>.from(jsonResponse["recommended_books"]);
-      return recommendations;
-    } else {
-      throw Exception("Failed to fetch recommendations");
-    }
-  }
-  Future<void> getContentRecs(String bookName) async {
-    bookApiController.isLoading.value = true;
-    final bookList = await fetchRecommendations(bookName);
-    print(bookList);
-    bookApiController.searchBooksByAIRecommendations(bookList);
-  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +51,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
                   style: Theme.of(context).textTheme.bodyMedium, // Label styling
                 ),
                 suffixIcon: IconButton(
-                  onPressed: () => getContentRecs(enteredBookName.text),
+                  onPressed: () => bookApiController.getContentRecs(enteredBookName.text),
                   icon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary), // Themed color
                 ),
               ),
@@ -78,7 +62,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
 
             Expanded(
               child: Obx(() {
-                if (bookApiController.isLoading.value) {
+                if (bookApiController.isContentRecsLoading.value) {
                   return const Center(
                     child: SizedBox(
                       height: 40, // Adjust size
@@ -87,7 +71,7 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
                     ),
                   );
                 }
-                if (bookApiController.finalBooks.isEmpty) {
+                if (bookApiController.contentRecBooks.isEmpty) {
                   return Center(
                     child: Text(
                       "No books found",
@@ -98,9 +82,9 @@ class _RecommendationsScreenState extends State<RecommendationsScreen> {
                 }
 
                 return ListView.separated(
-                  itemCount: bookApiController.finalBooks.length,
+                  itemCount: bookApiController.contentRecBooks.length,
                   itemBuilder: (ctx, index) {
-                    final book = bookApiController.finalBooks[index];
+                    final book = bookApiController.contentRecBooks[index];
                     return ListTile(
                       leading: Image.network(book.smallThumbnail),
                       title: Text(

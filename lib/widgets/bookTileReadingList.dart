@@ -30,11 +30,11 @@ class _bookTileReadingListState extends State<bookTileReadingList> {
       child: Text("Move to To Read"),
     ),
     const PopupMenuItem(
-    value: readingStatus.currentlyReading,
+    value: readingStatus.Reading,
     child: Text("Move to Currently Reading"),
     ),
     const PopupMenuItem(
-    value: readingStatus.finished,
+    value: readingStatus.Finished,
     child: Text("Move to Finished"),
     ),
     ]

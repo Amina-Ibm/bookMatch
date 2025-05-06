@@ -22,7 +22,7 @@ class _searchBookScreenState extends State<searchBookScreen>{
   @override
   void initState() {
     super.initState();
-    bookApiController.finalBooks.clear();
+    bookApiController.searchedBooks.clear();
   }
   void onSelectBook(BuildContext context, Book book){
     Navigator.push(context,
@@ -33,7 +33,8 @@ class _searchBookScreenState extends State<searchBookScreen>{
     final _formkey = GlobalKey<FormState>();
     return Scaffold(
         appBar: AppBar(
-        title: Text('Search Book'),
+        title: Text('Search'),
+          automaticallyImplyLeading: false,
     ),
     body: Padding(
       padding: const EdgeInsets.all(20),
@@ -48,8 +49,8 @@ class _searchBookScreenState extends State<searchBookScreen>{
                 controller: bookNameController,
                 maxLength: 60,
                 decoration: InputDecoration(
-                  labelText: 'Enter Book Name',
-                  suffixStyle: Theme.of(context).textTheme.bodyMedium,
+                  hintText: 'Search books, authors',
+                  suffixStyle: Theme.of(context).textTheme.bodySmall,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -62,7 +63,7 @@ class _searchBookScreenState extends State<searchBookScreen>{
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 5),
 
             // Separator Text
             Center(
@@ -85,7 +86,7 @@ class _searchBookScreenState extends State<searchBookScreen>{
 
             // Book Results List
             Obx(() {
-              if (bookApiController.isLoading.value) {
+              if (bookApiController.isSearchLoading.value) {
                 return const Center(
                   child: SizedBox(
                     height: 40,
@@ -95,7 +96,7 @@ class _searchBookScreenState extends State<searchBookScreen>{
                 );
               }
 
-              if (bookApiController.finalBooks.isEmpty) {
+              if (bookApiController.searchedBooks.isEmpty) {
                 return Center(
                   child: Text(
                     "No books found",
@@ -107,9 +108,9 @@ class _searchBookScreenState extends State<searchBookScreen>{
               return ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: bookApiController.finalBooks.length,
+                itemCount: bookApiController.searchedBooks.length,
                 itemBuilder: (ctx, index) {
-                  final book = bookApiController.finalBooks[index];
+                  final book = bookApiController.searchedBooks[index];
 
                   return ListTile(
                     leading: Image.network(book.smallThumbnail),

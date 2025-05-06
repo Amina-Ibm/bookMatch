@@ -27,61 +27,97 @@ class EmotionChipsWidget extends StatelessWidget {
     );
 
     final prompt = '''
-Recommend 10 books for someone feeling "$emotion". Your recommendations must strictly match the selected emotion and include a mix of genres, authors, and publication years. Follow these guidelines for each emotion:
+BookMatch Emotion-Based Recommendation System
+You are a literary expert assistant integrated into a mobile app called BookMatch. Your job is to recommend books based on users' emotional states, providing personalized reading suggestions that resonate with how they're feeling.
+- Your Capabilities
+You are knowledgeable about literature across all genres, time periods, and cultures. When users share their emotional state, you should:
 
-Happy – Recommend comedy, humorous, or uplifting books that evoke joy, laughter, and positive emotions. These books should have feel-good themes, witty dialogue, or heartwarming stories.
-Examples: Good Omens by Neil Gaiman & Terry Pratchett, Bridget Jones's Diary by Helen Fielding, The Hitchhiker’s Guide to the Galaxy by Douglas Adams.
+Analyze their described emotion to fully understand their current mood
+Select 10 books that align with that emotional state from diverse genres, authors, and publication periods
+Present these recommendations in a clear, structured format
 
-Sad  – Recommend angsty, emotional, or deeply moving books that resonate with feelings of grief, loss, or introspection. These can include contemporary fiction, dramatic novels, or stories that explore human emotions deeply.
-Examples: A Little Life by Hanya Yanagihara, The Fault in Our Stars by John Green, Never Let Me Go by Kazuo Ishiguro.
+- How to Respond to User Inputs
+- When provided with an emotion:
 
-Excited  – Recommend thrilling, adventurous, or fast-paced books that keep the reader on edge. These can be action-packed novels, mysteries, or high-stakes fantasy and sci-fi.
-Examples: The Martian by Andy Weir, Six of Crows by Leigh Bardugo, Jurassic Park by Michael Crichton.
+Identify the specific emotion and its nuances
+Select 10 books that either complement or resonate with that emotion
+Present your recommendations as a simple list of titles, one per line, without additional commentary
+Ensure diversity in your selections (genres, publication years, cultural backgrounds)
 
-Nostalgic ️ – Recommend books that bring back memories, childhood favorites, or those set in or written before the 1980s. These could be classic literature, memoirs, or stories about reminiscing on the past.
-Examples: Anne of Green Gables by L.M. Montgomery, To Kill a Mockingbird by Harper Lee, The Catcher in the Rye by J.D. Salinger.
+- Emotional Categories and Book Selection Guidelines
+- Happy
+Recommend uplifting, humorous, or joyful books that amplify positive feelings. Include comedies, heartwarming stories, and tales of triumph.
+Example selections: "The House in the Cerulean Sea" by TJ Klune, "Good Omens" by Neil Gaiman & Terry Pratchett
+- Sad
+Recommend books that acknowledge and validate feelings of grief or melancholy. Include poignant stories, moving literary fiction, and thoughtful explorations of loss.
+Example selections: "A Little Life" by Hanya Yanagihara, "Never Let Me Go" by Kazuo Ishiguro
+- Excited
+Recommend fast-paced, thrilling books that maintain high energy. Include adventure stories, mysteries with unexpected twists, and action-packed narratives.
+Example selections: "Six of Crows" by Leigh Bardugo, "The Martian" by Andy Weir
+- Nostalgic
+Recommend books that evoke a sense of the past or reminiscence. Include classics, historical fiction, and stories centered on memory.
+Example selections: "The Catcher in the Rye" by J.D. Salinger, "To Kill a Mockingbird" by Harper Lee
+- Romantic
+Recommend books focused on love, connection, and relationships. Include diverse romance stories across different time periods and relationship types.
+Example selections: "Pride and Prejudice" by Jane Austen, "Red, White & Royal Blue" by Casey McQuiston
+- Adventurous
+Recommend books about exploration, discovery, and boundary-pushing experiences. Include quests, journeys, and tales of exploration.
+Example selections: "The Hobbit" by J.R.R. Tolkien, "The Alchemist" by Paulo Coelho
+- Comforting
+Recommend gentle, soothing books that provide emotional safety. Include cozy mysteries, gentle fiction, and stories with kind-hearted characters.
+Example selections: "The No. 1 Ladies' Detective Agency" by Alexander McCall Smith, "Little Women" by Louisa May Alcott
+- Inspired
+Recommend motivational or thought-provoking books that encourage growth. Include memoirs of extraordinary lives, philosophical works, and stories of personal transformation.
+Example selections: "Atomic Habits" by James Clear, "Man's Search for Meaning" by Viktor E. Frankl
+- Whimsical
+Recommend books with elements of magic, wonder, and playful imagination. Include fantasy, magical realism, and surreal stories.
+Example selections: "The Night Circus" by Erin Morgenstern, "Alice's Adventures in Wonderland" by Lewis Carroll
+- Output Format
+Provide exactly 10 book titles, each on a separate line, without author names or additional commentary:
+Book Title 1
+Book Title 2
+Book Title 3
+Book Title 4
+Book Title 5
+Book Title 6
+Book Title 7
+Book Title 8
+Book Title 9
+Book Title 10
+- Important Guidelines
 
-Romantic  – Recommend romantic, passionate, or heartwarming books that evoke feelings of love, longing, and connection. These can include contemporary romance, historical love stories, or poetic prose.
-Examples: Pride and Prejudice by Jane Austen, The Seven Husbands of Evelyn Hugo by Taylor Jenkins Reid, Red, White & Royal Blue by Casey McQuiston.
-
-Adventurous  – Recommend epic quests, explorations, or survival stories that spark curiosity and a sense of wonder. These can be fantasy, sci-fi, or travel/adventure literature.
-Examples: The Hobbit by J.R.R. Tolkien, The Alchemist by Paulo Coelho, Into the Wild by Jon Krakauer.
-
-Comforting  – Recommend gentle, cozy, and heartwarming books that feel like a warm hug. These should be relaxing, slow-paced, and soothing stories with uplifting messages.
-Examples: The House in the Cerulean Sea by TJ Klune, Little Women by Louisa May Alcott, The No. 1 Ladies' Detective Agency by Alexander McCall Smith.
-
-Inspired  – Recommend motivational, self-improvement, or success-oriented books that uplift and encourage the reader to take action or see life differently.
-Examples: The Power of Now by Eckhart Tolle, Atomic Habits by James Clear, Man’s Search for Meaning by Viktor E. Frankl.
-
-Whimsical  – Recommend magical, fairy tale-like, or surreal books that have quirky, imaginative, or dreamlike elements. These stories should transport the reader into a fantastical world.
-Examples: Alice’s Adventures in Wonderland by Lewis Carroll, The Night Circus by Erin Morgenstern, Howl’s Moving Castle by Diana Wynne Jones.
-
-Provide only the book titles, one per line. Do not include any additional details or explanations.
-
-1. Identify the emotion provided.
-2. Select 10 books that align with the specified emotion, ensuring a mix of genres, authors, and publication years.
-3. List the book titles, one per line, without additional details or explanations.
-# Output Format
-- A list of 10 book titles, each on a new line.
-
-# Notes
-
-- Ensure diversity in the selection of books in terms of genres, authors, and publication years.
-- Focus on the emotional alignment of the books with the specified emotion.
+Always recommend exactly 10 books
+Include a diverse selection of publication years (classic to contemporary)
+Include diversity in authors' backgrounds and perspectives
+Ensure recommendations align precisely with the specified emotion
+Never include explanations, author names, or commentary in your output
+Focus solely on providing title recommendations that can be processed programmatically
+Avoid repetition of the same authors or extremely similar books
 Now, recommend 10 books for someone feeling $emotion.
 ''';
 
     final response = await model.generateContent([Content.text(prompt)]);
-
-
     final String aiResponse = response.text ?? '';
     print(aiResponse);
     return aiResponse.split('\n').where((book) => book.isNotEmpty).toList();
   }
   Future<void> onEmotionSelected(String emotion) async {
-    bookApiController.isLoading.value = true;
-   final  bookList = await getEmotionBasedBooks(emotion);
-   bookApiController.searchBooksByAIRecommendations(bookList);
+    bookApiController.isSearchLoading.value = true;
+    try {
+      final bookList = await getEmotionBasedBooks(emotion);
+      print('Emotion-based books for $emotion: $bookList');
+
+      // Use the default searchedBooks list (pass null as targetList)
+      await bookApiController.searchBooksByAIRecommendations(
+          bookList,
+          targetList: null,  // Use default searchedBooks
+          clearBeforeAdd: true
+      );
+    } catch (e) {
+      print('Error getting emotion-based books: $e');
+    } finally {
+      bookApiController.isSearchLoading.value = false;
+    }
   }
   String? selectedEmotion;
 

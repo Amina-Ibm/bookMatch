@@ -1,8 +1,26 @@
+import 'package:flutter/material.dart';
+
+import '../Theme/appTheme.dart';
+
 enum readingStatus {
   None,
   toRead,
-  currentlyReading,
-  finished
+  Reading,
+  Finished
+}
+extension ReadingStatusExtension on readingStatus {
+  Color get color {
+    switch (this) {
+      case readingStatus.toRead:
+        return AppTheme.bookToRead;
+      case readingStatus.Reading:
+        return AppTheme.bookReading;
+      case readingStatus.Finished:
+        return AppTheme.bookRead;
+      case readingStatus.None:
+        return Colors.grey;
+    }
+  }
 }
 
 class Book{
@@ -16,6 +34,7 @@ class Book{
     required this.description,
     required this.publishedDate,
     this.status,
+    this.id
   });
 
   final String title;
@@ -28,6 +47,7 @@ class Book{
   final String description;
   final String publishedDate;
   readingStatus? status;
+  final String? id;
 
 
   factory Book.fromJsonWithGoogleApi(Map<String, dynamic> data) {
@@ -57,7 +77,7 @@ class Book{
         
     );
   }
-  factory Book.fromJsonWithFirestore(Map<String, dynamic> data) {
+  factory Book.fromJsonWithAppwrite(Map<String, dynamic> data) {
     return Book(
       title: data['title'] ?? 'Unknown Title',
       author: data['author'] ?? 'Unknown Author',
@@ -70,6 +90,11 @@ class Book{
           'https://static-00.iconduck.com/assets.00/no-image-icon-256x256-blc2175p.png',
       description: data['description'] ?? 'No description found.',
       publishedDate: data['publishedDate'] ?? 'Unknown published date',
+        status: readingStatus.values.firstWhere(
+    (e) => e.toString().split('.').last == data['status'],
+
+    ),
+      id: data[r'$id'],
     );
   }
 
@@ -88,3 +113,16 @@ class Book{
     };
   }
 }
+
+List<String> categories = [
+  'Fiction',
+  'Mystery & Thriller',
+  'Science Fiction & Fantasy',
+  'Romance',
+  'Non-Fiction',
+  'Biography & Memoir'
+  'Self-Help & Personal Development',
+  'History',
+  'Young Adult',
+  'Science & Technology'
+];

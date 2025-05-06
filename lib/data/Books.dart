@@ -10,7 +10,7 @@ final readingListBooks =  [
       thumbnail: 'http://books.google.com/books/content?id=c6WJCwAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
       description: 'Four best-selling Classic Goosebumps with bonus materials in eBook format! A collection of four best-selling Classic Goosebumps books including Night of the Living Dummy, Deep Trouble, Monster Blood, and The Haunted Mask. Compiled together for the first time in an eBook format!',
       publishedDate: '2015-12-01',
-      status: readingStatus.finished
+      status: readingStatus.Finished
   ),
   Book(title: 'The Chronicles of Narnia. Prince Caspian',
       author: 'C. S. Lewis',
@@ -55,7 +55,7 @@ final readingListBooks =  [
       thumbnail: 'http://books.google.com/books/content?id=7GFTJkIe3qAC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
       description: 'Meticulously researched . . . This is the definitive chronicle of the Middle East crisis during the Clinton years and in the post-9/11 era” (Publishers Weekly). “Providing a fly-on-the-wall vantage of the rising diplomatic panic that sent shudders through world capitals,” Kill Khalid unfolds as a masterpiece of investigative journalism (Toronto Star). In 1997, the Israeli intelligence agency Mossad poisoned Hamas leader Khalid Mishal in broad daylight on the streets of Amman, Jordan. As the little-known Palestinian leader slipped into a coma, the Mossad agents’ escape was bungled and the episode quickly spiraled into a diplomatic crisis. A series of high-stakes negotiations followed, which ultimately saved Mishal and set the stage for his phenomenal political ascendancy. In Kill Khalid, acclaimed reporter Paul McGeough reconstructs the history of Hamas through exclusive interviews with key players across the Middle East and in Washington, including unprecedented access to Mishal himself, who remains to this day one of the most powerful and enigmatic figures in the region. A “sobering reminder of how little has been achieved during 60 years of Israeli efforts in Palestine,” Kill Khalid tracks Hamas’s political fortunes across a decade of suicide bombings, political infighting, and increasing public support, culminating in the battle for Gaza in 2007 and the current-day political stalemate (Kirkus Reviews, starred review). “A pacey, riveting, and controversial book that has all the compulsion of a Le Carré novel.” —John F. Burns, The New York Times “[A] gem of leave-no-stone-unturned reporting.” —Foreign Affairs',
       publishedDate: '2013-08-06',
-      status: readingStatus.finished
+      status: readingStatus.Finished
   ),
   Book(title: 'Sallys Baking Addiction',
       author: 'Sally McKenney',

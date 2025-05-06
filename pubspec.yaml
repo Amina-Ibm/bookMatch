@@ -25,8 +25,10 @@ dependencies:
   http: ^1.2.2
   iconify_flutter: ^0.0.7
   iconify_flutter_plus: ^1.0.4
+  introduction_screen: ^3.1.17
   mobile_scanner: ^6.0.2
   openai_dart: ^0.4.5
+  shared_preferences: ^2.5.3
   toastification: ^2.3.0
   uri: ^1.0.0
   url_launcher: ^6.3.1
@@ -39,5 +41,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/images/get-recs.jpg
     - assets/images/applogo.jpg
+    - assets/images/isbn-scanner.jpg
+    - assets/images/reading-list.jpg
+    - assets/images/search-book.jpg
 
