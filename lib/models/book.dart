@@ -120,9 +120,7 @@ List<String> categories = [
   'Science Fiction & Fantasy',
   'Romance',
   'Non-Fiction',
-  'Biography & Memoir'
-  'Self-Help & Personal Development',
+  'Biography & Memoir',
   'History',
   'Young Adult',
-  'Science & Technology'
 ];
