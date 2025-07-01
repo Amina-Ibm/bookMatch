@@ -48,10 +48,6 @@ A Flutter-based mobile app made as my Final Year Project.  It helps users search
 
 <img src="https://github.com/user-attachments/assets/26621111-199d-4f3f-8f19-952cf3c81223"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/310bec85-d483-4fda-8b84-da548386166d"  style="width:18%; height:18%; ">
-
-<img src="https://github.com/user-attachments/assets/5bf2a7b2-80af-4037-b57e-8d305b51305b"  style="width:18%; height:18%; ">
-
 <img src="https://github.com/user-attachments/assets/71d97b56-c3d9-429e-b124-5756376d437d"  style="width:18%; height:18%; ">
 
 
