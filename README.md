@@ -35,29 +35,24 @@ A Flutter-based mobile app made as my Final Year Project.  It helps users search
 
 ## Screenshots
 
-<img src="https://github.com/user-attachments/assets/97f5aa4d-6c82-44a0-b0cc-c997b9847b25"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/d7734546-04b1-43b7-bb52-03312617b0dd"  style="width:18%; height:18%; ">
+<img src="https://github.com/user-attachments/assets/3b7e097d-4928-4e3f-95aa-d4032053a472"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/4c9713d5-9c9b-4dbb-9f1d-3c2981495e47"  style="width:18%; height:18%; ">
+<img src="https://github.com/user-attachments/assets/e9f794e8-1fec-408f-9409-93790822182f"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/b7e33548-2d37-4d3c-b02c-2b73fcebeafc"  style="width:18%; height:18%; ">
+<img src="https://github.com/user-attachments/assets/da5dd4af-c667-4b14-8700-cb384d2c4cdf"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/018a6930-4908-439d-8330-d4043125f6f5"  style="width:18%; height:18%; ">
+<img src="https://github.com/user-attachments/assets/c1d71141-eb48-4c5b-b5e6-fc05451d752e"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/fe3cd6f8-8f5a-42fd-8daa-9492b2dcf030"  style="width:18%; height:18%; ">
+<img src="https://github.com/user-attachments/assets/0a7a0f2f-ec71-4e84-a69b-b64a0fb2defa"  style="width:18%; height:18%; ">
+
+<img src="https://github.com/user-attachments/assets/26621111-199d-4f3f-8f19-952cf3c81223"  style="width:18%; height:18%; ">
 
 <img src="https://github.com/user-attachments/assets/310bec85-d483-4fda-8b84-da548386166d"  style="width:18%; height:18%; ">
 
 <img src="https://github.com/user-attachments/assets/5bf2a7b2-80af-4037-b57e-8d305b51305b"  style="width:18%; height:18%; ">
 
-<img src="https://github.com/user-attachments/assets/3def120b-23f1-4b41-a35a-dbfc959a6032"  style="width:18%; height:18%; ">
-
-## Video Demo
-
-
-
-https://github.com/user-attachments/assets/1a7d28b1-ccfe-4a81-8437-4a76087d4af3
+<img src="https://github.com/user-attachments/assets/71d97b56-c3d9-429e-b124-5756376d437d"  style="width:18%; height:18%; ">
 
 
 
